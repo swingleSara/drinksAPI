@@ -1,0 +1,8 @@
+body {
+  background-color: darkslategrey;
+  color: silver;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+}
