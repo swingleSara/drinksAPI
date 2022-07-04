@@ -6,7 +6,7 @@ require("dotenv").config();
 
 let db,
   dbConnectionStr = process.env.DB_STRING,
-  dbName = "rap";
+  dbName = "drinksDB";
 
 MongoClient.connect(dbConnectionStr, { useUnifiedTopology: true }).then(
   (client) => {
@@ -23,7 +23,6 @@ app.use(express.json());
 app.get("/", (request, response) => {
   db.collection("drinksDB")
     .find()
-    .sort({ likes: -1 })
     .toArray()
     .then((data) => {
       response.render("index.ejs", { info: data });
@@ -34,28 +33,34 @@ app.get("/", (request, response) => {
 app.post("/addDrink", (request, response) => {
   db.collection("drinksDB")
     .insertOne({
-      stageName: request.body.stageName,
-      birthName: request.body.birthName,
-      likes: 0,
+      type: request.body.type,
+      subType: request.body.subType,
+      name: request.body.name,
+      content: request.body.content,
+      measurement: request.body.measurement,
+      unit: 0,
     })
     .then((result) => {
-      console.log("Rapper Added");
+      console.log("Drink Added");
       response.redirect("/");
     })
     .catch((error) => console.error(error));
 });
 
-app.put("/addOneLike", (request, response) => {
+app.put("/addUnit", (request, response) => {
   db.collection("drinksDB")
     .updateOne(
       {
-        stageName: request.body.stageNameS,
-        birthName: request.body.birthNameS,
-        likes: request.body.likesS,
+        type: request.body.typeS,
+        subType: request.body.subTypeS,
+        name: request.body.nameS,
+        content: request.body.contentS,
+        measurement: request.body.measurementS,
+        unit: request.body.unitS,
       },
       {
         $set: {
-          likes: request.body.likesS + 1,
+          unit: request.body.unitS + 1,
         },
       },
       {
@@ -64,18 +69,18 @@ app.put("/addOneLike", (request, response) => {
       }
     )
     .then((result) => {
-      console.log("Added One Like");
-      response.json("Like Added");
+      console.log("Added One Unit");
+      response.json("Unit Added");
     })
     .catch((error) => console.error(error));
 });
 
-app.delete("/deleteRapper", (request, response) => {
+app.delete("/deleteDrink", (request, response) => {
   db.collection("drinksDB")
-    .deleteOne({ stageName: request.body.stageNameS })
+    .deleteOne({ type: request.body.typeS })
     .then((result) => {
-      console.log("Rapper Deleted");
-      response.json("Rapper Deleted");
+      console.log("Drink Deleted");
+      response.json("Drink Deleted");
     })
     .catch((error) => console.error(error));
 });

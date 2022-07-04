@@ -2,23 +2,23 @@ const deleteText = document.querySelectorAll(".fa-trash");
 const thumbText = document.querySelectorAll(".fa-thumbs-up");
 
 Array.from(deleteText).forEach((element) => {
-  element.addEventListener("click", deleteRapper);
+  element.addEventListener("click", deleteDrink);
 });
 
 Array.from(thumbText).forEach((element) => {
-  element.addEventListener("click", addLike);
+  element.addEventListener("click", addUnit);
 });
 
-async function deleteRapper() {
-  const sName = this.parentNode.childNodes[1].innerText;
-  const bName = this.parentNode.childNodes[3].innerText;
+async function deleteDrink() {
+  const type = this.parentNode.childNodes[1].innerText;
+  const subType = this.parentNode.childNodes[3].innerText;
   try {
-    const response = await fetch("deleteRapper", {
+    const response = await fetch("deleteDrink", {
       method: "delete",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        stageNameS: sName,
-        birthNameS: bName,
+        typeS: type,
+        subTypeS: subType,
       }),
     });
     const data = await response.json();
@@ -29,18 +29,18 @@ async function deleteRapper() {
   }
 }
 
-async function addLike() {
-  const sName = this.parentNode.childNodes[1].innerText;
-  const bName = this.parentNode.childNodes[3].innerText;
-  const tLikes = Number(this.parentNode.childNodes[5].innerText);
+async function addUnit() {
+  const type = this.parentNode.childNodes[1].innerText;
+  const subType = this.parentNode.childNodes[3].innerText;
+  const tUnits = Number(this.parentNode.childNodes[5].innerText);
   try {
-    const response = await fetch("addOneLike", {
+    const response = await fetch("addOneUnit", {
       method: "put",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        stageNameS: sName,
-        birthNameS: bName,
-        likesS: tLikes,
+        typeS: type,
+        subtTypeS: subType,
+        unitsS: tUnits,
       }),
     });
     const data = await response.json();
