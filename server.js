@@ -21,7 +21,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.get("/", (request, response) => {
-  db.collection("rappers")
+  db.collection("drinksDB")
     .find()
     .sort({ likes: -1 })
     .toArray()
@@ -31,8 +31,8 @@ app.get("/", (request, response) => {
     .catch((error) => console.error(error));
 });
 
-app.post("/addRapper", (request, response) => {
-  db.collection("rappers")
+app.post("/addDrink", (request, response) => {
+  db.collection("drinksDB")
     .insertOne({
       stageName: request.body.stageName,
       birthName: request.body.birthName,
@@ -46,7 +46,7 @@ app.post("/addRapper", (request, response) => {
 });
 
 app.put("/addOneLike", (request, response) => {
-  db.collection("rappers")
+  db.collection("drinksDB")
     .updateOne(
       {
         stageName: request.body.stageNameS,
@@ -71,7 +71,7 @@ app.put("/addOneLike", (request, response) => {
 });
 
 app.delete("/deleteRapper", (request, response) => {
-  db.collection("rappers")
+  db.collection("drinksDB")
     .deleteOne({ stageName: request.body.stageNameS })
     .then((result) => {
       console.log("Rapper Deleted");
